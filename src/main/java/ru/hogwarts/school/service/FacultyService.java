@@ -12,7 +12,7 @@ public class FacultyService {
     private final Map<Long, Faculty> faculties = new HashMap<>();
     private long lastId = 0;
 
-    public Faculty creatFaculty (Faculty faculty) {
+    public Faculty createFaculty (Faculty faculty) {
         faculty.setId(++lastId);
         return faculties.put(lastId, faculty);
     }
@@ -25,8 +25,8 @@ public class FacultyService {
         return faculties.put(faculty.getId(), faculty);
     }
 
-    public Faculty deleteFaculty (Faculty faculty) {
-        return faculties.remove(faculty);
+    public Faculty deleteFaculty (Long id) {
+        return faculties.remove(id);
     }
 
 }

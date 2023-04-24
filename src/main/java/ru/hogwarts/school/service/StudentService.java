@@ -12,7 +12,7 @@ public class StudentService {
     private final Map<Long, Student> students = new HashMap<>();
     private long lastId = 0;
 
-    public Student creatStudent (Student student) {
+    public Student createStudent (Student student) {
         student.setId(++lastId);
         return students.put(lastId, student);
     }
@@ -25,8 +25,8 @@ public class StudentService {
         return students.put(student.getId(), student);
     }
 
-    public Student deleteStudent (Student student) {
-        return students.remove(student);
+    public Student deleteStudent (Long id) {
+        return students.remove(id);
     }
 
 }
