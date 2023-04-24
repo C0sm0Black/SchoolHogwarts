@@ -13,8 +13,11 @@ public class StudentService {
     private long lastId = 0;
 
     public Student createStudent (Student student) {
+
         student.setId(++lastId);
-        return students.put(lastId, student);
+        students.put(lastId, student);
+        return student;
+
     }
 
     public Student findStudent (Long id) {
@@ -22,11 +25,29 @@ public class StudentService {
     }
 
     public Student editStudent (Student student) {
-        return students.put(student.getId(), student);
+
+        students.put(student.getId(), student);
+        return student;
     }
 
     public Student deleteStudent (Long id) {
         return students.remove(id);
+    }
+
+    public Map<Long, Student> getStudentsByAge (int age) {
+
+        Map<Long, Student> studentsByAge = new HashMap<>();
+
+        students.forEach((k, v) -> {
+
+            if (v.getAge() == age) {
+                studentsByAge.put(k, v);
+            }
+
+        });
+
+        return studentsByAge;
+
     }
 
 }

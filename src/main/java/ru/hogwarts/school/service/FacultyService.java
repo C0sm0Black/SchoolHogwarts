@@ -13,8 +13,11 @@ public class FacultyService {
     private long lastId = 0;
 
     public Faculty createFaculty (Faculty faculty) {
+
         faculty.setId(++lastId);
-        return faculties.put(lastId, faculty);
+        faculties.put(lastId, faculty);
+        return faculty;
+
     }
 
     public Faculty findFaculty (Long id) {
@@ -22,11 +25,29 @@ public class FacultyService {
     }
 
     public Faculty editFaculty (Faculty faculty) {
-        return faculties.put(faculty.getId(), faculty);
+
+        faculties.put(faculty.getId(), faculty);
+        return faculty;
     }
 
     public Faculty deleteFaculty (Long id) {
         return faculties.remove(id);
+    }
+
+    public Map<Long, Faculty> getFacultiesByColor (String color) {
+
+        Map<Long, Faculty> facultiesByColor = new HashMap<>();
+
+        faculties.forEach((k, v) -> {
+
+            if (v.getColor().equals(color)) {
+                faculties.put(k, v);
+            }
+
+        });
+
+        return facultiesByColor;
+
     }
 
 }
