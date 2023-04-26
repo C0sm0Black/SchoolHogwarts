@@ -2,52 +2,41 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.repository.FacultyRepository;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class FacultyService {
 
-    private final Map<Long, Faculty> faculties = new HashMap<>();
-    private long lastId = 0;
+    private final FacultyRepository facultyRepository;
 
-    public Faculty createFaculty (Faculty faculty) {
-
-        faculty.setId(++lastId);
-        faculties.put(lastId, faculty);
-        return faculty;
-
+    public FacultyService(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
     }
 
-    public Faculty findFaculty (Long id) {
-        return faculties.get(id);
+    public Faculty createFaculty(Faculty faculty) {
+        return facultyRepository.save(faculty);
     }
 
-    public Faculty editFaculty (Faculty faculty) {
-
-        faculties.put(faculty.getId(), faculty);
-        return faculty;
+    public Faculty findFaculty(long id) {
+        return facultyRepository.getById(id);
     }
 
-    public Faculty deleteFaculty (Long id) {
-        return faculties.remove(id);
+    public Faculty editFaculty(Faculty faculty) {
+        return facultyRepository.save(faculty);
     }
 
-    public Map<Long, Faculty> getFacultiesByColor (String color) {
+    public void deleteFaculty(long id) {
+        facultyRepository.deleteById(id);
+    }
 
-        Map<Long, Faculty> facultiesByColor = new HashMap<>();
+    public List<Faculty> getFacultiesByColor(String color) {
+        return facultyRepository.findAllByColor(color);
+    }
 
-        faculties.forEach((k, v) -> {
-
-            if (v.getColor().equals(color)) {
-                faculties.put(k, v);
-            }
-
-        });
-
-        return facultiesByColor;
-
+    public List<Faculty> getAll() {
+        return facultyRepository.findAll();
     }
 
 }

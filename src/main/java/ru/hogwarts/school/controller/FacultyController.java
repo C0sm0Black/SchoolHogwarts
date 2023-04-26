@@ -1,12 +1,11 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.hogwarts.school.SchoolApplication;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
 
-import java.util.Collections;
-import java.util.Map;
+import java.util.List;
 
 @RequestMapping("faculty")
 @RestController
@@ -19,28 +18,60 @@ public class FacultyController {
     }
 
     @GetMapping("{id}")
-    public Faculty getFacultyInfo (@PathVariable Long id) {
-        return facultyService.findFaculty(id);
+    public ResponseEntity getFacultyInfo(@PathVariable long id) {
+
+        Faculty faculty = facultyService.findFaculty(id);
+
+        if (faculty == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(faculty);
+
     }
 
     @PostMapping
-    public Faculty createFaculty (Faculty faculty) {
+    public Faculty createFaculty(Faculty faculty) {
         return facultyService.createFaculty(faculty);
     }
 
     @PutMapping
-    public Faculty editFaculty (@RequestBody Faculty faculty) {
+    public Faculty editFaculty(@RequestBody Faculty faculty) {
         return facultyService.editFaculty(faculty);
     }
 
     @DeleteMapping("{id}")
-    public Faculty deleteFaculty (@PathVariable Long id) {
-        return facultyService.deleteFaculty(id);
+    public ResponseEntity deleteFaculty(@PathVariable long id) {
+
+        facultyService.deleteFaculty(id);
+        return ResponseEntity.ok().build();
+
     }
 
     @GetMapping
-    public Map<Long, Faculty> getFacultiesByColor (@RequestParam String color) {
-        return facultyService.getFacultiesByColor(color);
+    public ResponseEntity getFacultiesByColor(@RequestParam String color) {
+
+        List<Faculty> faculties = facultyService.getFacultiesByColor(color);
+
+        if (faculties.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(faculties);
+
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity getAll() {
+
+        List<Faculty> faculties = facultyService.getAll();
+
+        if (faculties.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(faculties);
+
     }
 
 }
