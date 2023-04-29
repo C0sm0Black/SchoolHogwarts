@@ -76,7 +76,7 @@ public class FacultyController {
     }
 
     @GetMapping("/getFacultiesByNameOrColor")
-    public ResponseEntity getFacultiesByNameOrColor (@RequestParam String s) {
+    public ResponseEntity getFacultiesByNameOrColor(@RequestParam String s) {
 
         List<Faculty> faculties = facultyService.getFacultiesByNameOrColor(s);
 
@@ -89,7 +89,7 @@ public class FacultyController {
     }
 
     @GetMapping("/getFacultyStudents")
-    public ResponseEntity getFacultyStudents (@RequestParam String nameFaculty) {
+    public ResponseEntity getFacultyStudents(@RequestParam String nameFaculty) {
 
         List<Student> students = facultyService.getFacultyStudents(nameFaculty);
 
