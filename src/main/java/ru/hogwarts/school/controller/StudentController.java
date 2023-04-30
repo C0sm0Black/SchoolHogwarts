@@ -101,4 +101,43 @@ public class StudentController {
 
     }
 
+    @GetMapping("/getAmountStudents")
+    public ResponseEntity getAmountStudents() {
+
+        Long amount = studentService.getAmountStudents();
+
+        if (amount == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(amount);
+
+    }
+
+    @GetMapping("/getAvgAgeStudents")
+    public ResponseEntity getAvgAgeStudents() {
+
+        Double avg = studentService.getAvgAgeStudents();
+
+        if (avg == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(avg);
+
+    }
+
+    @GetMapping("/getLastStudents")
+    public ResponseEntity getLastStudents() {
+
+        List<Student> lastStudents = studentService.getLastStudents();
+
+        if (lastStudents.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(lastStudents);
+
+    }
+
 }
