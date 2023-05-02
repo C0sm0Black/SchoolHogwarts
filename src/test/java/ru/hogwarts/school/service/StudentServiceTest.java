@@ -173,4 +173,76 @@ class StudentServiceTest {
 
     }
 
+    @Test
+    void getAmountStudents_success() {
+
+        //Подготовка входных данных
+
+        Long amountStudents = 16l;
+
+        //Подготовка ожидаемого результата
+
+        when(studentRepository.getAmountStudents()).thenReturn(amountStudents);
+
+        //Начало теста
+
+        Long actualAmountStudents = studentService.getAmountStudents();
+        assertEquals(amountStudents, actualAmountStudents);
+        verify(studentRepository).getAmountStudents();
+        verifyNoMoreInteractions(studentRepository);
+
+    }
+
+    @Test
+    void getAvgAgeStudents_success() {
+
+        //Подготовка входных данных
+
+        Double avgAgeStudents = 15.5;
+
+        //Подготовка ожидаемого результата
+
+        when(studentRepository.getAvgAgeStudents()).thenReturn(avgAgeStudents);
+
+        //Начало теста
+
+        Double actualAvgAgeStudents = studentService.getAvgAgeStudents();
+        assertEquals(avgAgeStudents, actualAvgAgeStudents);
+        verify(studentRepository).getAvgAgeStudents();
+        verifyNoMoreInteractions(studentRepository);
+
+    }
+
+    @Test
+    void getLastStudents() {
+
+        //Подготовка входных данных
+
+        Student studentOne = new Student(1, "Harry Potter", 14);
+        Student studentTwo = new Student(2, "Ron Wiesly", 14);
+        Student studentThree = new Student(3, "Amber Noel", 18);
+        Student studentFour = new Student(4, "Emily Taylor", 12);
+        Student studentFive = new Student(5, "Zubeida Khan", 21);
+
+        List<Student> students = new ArrayList<>();
+
+        students.add(studentOne);
+        students.add(studentTwo);
+        students.add(studentThree);
+        students.add(studentFour);
+        students.add(studentFive);
+
+        //Подготовка ожидаемого результата
+
+        when(studentRepository.getLastStudents()).thenReturn(students);
+
+        //Начало теста
+
+        List<Student> actualStudents = studentService.getLastStudents();
+        assertEquals(students, actualStudents);
+        verify(studentRepository).getLastStudents();
+        verifyNoMoreInteractions(studentRepository);
+
+    }
+
 }

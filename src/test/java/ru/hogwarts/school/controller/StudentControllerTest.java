@@ -243,4 +243,76 @@ class StudentControllerTest {
 
     }
 
+    @Test
+    void getAmountStudents_success() throws Exception{
+
+        //Подготовка входных данных
+
+        long amountStudents = 1;
+
+        //Подготовка ожидаемого результата
+
+        when(studentService.getAmountStudents()).thenReturn(amountStudents);
+
+        //Начала теста
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student/getAmountStudents")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void getAvgAgeStudents_success() throws Exception{
+
+        //Подготовка входных данных
+
+        double avgAgeStudents = 14.5;
+
+        //Подготовка ожидаемого результата
+
+        when(studentService.getAvgAgeStudents()).thenReturn(avgAgeStudents);
+
+        //Начала теста
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student/getAvgAgeStudents")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void getLastStudents_success() throws Exception {
+
+        //Подготовка входных данных
+
+        Student studentOne = new Student(1, "Harry Potter", 14);
+        Student studentTwo = new Student(2, "Ron Wiesly", 14);
+        Student studentThree = new Student(3, "Amber Noel", 18);
+        Student studentFour = new Student(4, "Emily Taylor", 12);
+        Student studentFive = new Student(5, "Zubeida Khan", 21);
+
+        List<Student> students = new ArrayList<>();
+
+        students.add(studentOne);
+        students.add(studentTwo);
+        students.add(studentThree);
+        students.add(studentFour);
+        students.add(studentFive);;
+
+        //Подготовка ожидаемого результата
+
+        when(studentService.getLastStudents()).thenReturn(students);
+
+        //Начала теста
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student/getAvgAgeStudents")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
+
 }
