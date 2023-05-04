@@ -15,6 +15,6 @@ CREATE TABLE persons
     name     TEXT,
     age      INTEGER,
     canDrive BOOLEAN,
-    car_id   TETX REFERENCES cars (id)
+    car_id   INTEGER REFERENCES cars (id)
 
 );
