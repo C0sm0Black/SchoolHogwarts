@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import liquibase.pro.packaged.S;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,6 +162,33 @@ class FacultyServiceTest {
 
         List<Faculty> actualFaculties = facultyService.getAll();
         assertEquals(expectedFaculties, actualFaculties);
+        verify(facultyRepository).findAll();
+        verifyNoMoreInteractions(facultyRepository);
+
+    }
+
+    @Test
+    void getBiggestNameFaculty_success() {
+        //Подготовка входных данных
+
+        Faculty facultyOne = new Faculty(1, "gryffindor", "red");
+        Faculty facultyTwo = new Faculty(6, "asd", "asd");
+
+        List<Faculty> faculties = new ArrayList<>();
+
+        faculties.add(facultyOne);
+        faculties.add(facultyTwo);
+
+        //Подготовка ожидаемого результата
+
+        String expectedName = facultyOne.getName();
+
+        when(facultyRepository.findAll()).thenReturn(faculties);
+
+        //Начало теста
+
+        String actualName = facultyService.getBiggestNameFaculty();
+        assertEquals(expectedName, actualName);
         verify(facultyRepository).findAll();
         verifyNoMoreInteractions(facultyRepository);
 

@@ -8,6 +8,9 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
 public class StudentService {
@@ -96,6 +99,59 @@ public class StudentService {
 
         logger.info("Was invoked method StudentService::getLastStudents");
         return studentRepository.getLastStudents();
+
+    }
+
+    public List<String> getStudentByNameForFirstA() {
+
+        logger.info("Was invoked method StudentService::getStudentByNameForFirstA");
+
+        List<Student> students = studentRepository.findAll();
+        return students.stream()
+                .map(Student::getName)
+                .map(String::toUpperCase)
+                .filter(name -> name.startsWith("A"))
+                .sorted()
+                .collect(Collectors.toList());
+
+    }
+
+    public Double getAvgAgeStudentsSecondMethod() {
+
+        logger.info("Was invoked method StudentService::getAvgAgeStudentsSecondMethod");
+
+        List<Student> students = studentRepository.findAll();
+        return students.stream()
+                .mapToDouble(Student::getAge)
+                .average().orElse(0);
+
+    }
+
+    public Integer task() {
+
+        logger.info("Was invoked method StudentService::task");
+
+        long start = System.currentTimeMillis();
+        Integer resultParallel = IntStream.iterate(1, a -> a + 1)
+                .limit(7_000_000)
+                .parallel()
+                .reduce(0, (a, b) -> a + b);
+
+        long finish = System.currentTimeMillis();
+
+        logger.info("resultParallel: {}, time: {}", resultParallel, finish - start);
+
+        start = System.currentTimeMillis();
+
+        Integer result = Stream.iterate(1, a -> a + 1)
+                .limit(7_000_000)
+                .reduce(0, (a, b) -> a + b);
+
+        finish = System.currentTimeMillis();
+
+        logger.info("result: {}, time: {}", result, finish - start);
+
+        return resultParallel;
 
     }
 

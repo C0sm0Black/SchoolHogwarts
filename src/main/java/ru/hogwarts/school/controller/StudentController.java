@@ -1,11 +1,13 @@
 package ru.hogwarts.school.controller;
 
+import liquibase.pro.packaged.R;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @RequestMapping("student")
@@ -137,6 +139,45 @@ public class StudentController {
         }
 
         return ResponseEntity.ok(lastStudents);
+
+    }
+
+    @GetMapping("/getStudentsByNameForFirstA")
+    public ResponseEntity getStudentsByNameForFirstA() {
+
+        List<String> names = studentService.getStudentByNameForFirstA();
+
+        if (names.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(names);
+
+    }
+
+    @GetMapping("/getAvgAgeStudentsSecondMethod")
+    public ResponseEntity getAvgAgeStudentsSecondMethod() {
+
+        Double avg = studentService.getAvgAgeStudentsSecondMethod();
+
+        if (avg == null || avg == 0) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(avg);
+
+    }
+
+    @GetMapping("/task")
+    public ResponseEntity task() {
+
+        Integer sum = studentService.task();
+
+        if (sum == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(sum);
 
     }
 
