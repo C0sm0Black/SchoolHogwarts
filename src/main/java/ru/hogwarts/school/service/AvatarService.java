@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Transactional
 public class AvatarService {
 
+    private final Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     @Value("${students.avatar.dir.path}")
     private String avatarsDir;
 
@@ -36,6 +40,8 @@ public class AvatarService {
     }
 
     public ResponseEntity uploadAvatar(long studentId, MultipartFile file) throws IOException {
+
+        logger.info("Was invoked method AvatarService::uploadAvatar");
 
         Student student = studentService.findStudent(studentId);
 
@@ -69,10 +75,15 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(long studentId) {
+
+        logger.info("Was invoked method AvatarService::findAvatar");
         return avatarRepository.findAvatarByStudentId(studentId).orElse(new Avatar());
+
     }
 
     public List<Avatar> getAvatarsByPage(Integer pageNumber, Integer pageSize) {
+
+        logger.info("Was invoked method AvatarService::getAvatarsByPage");
 
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
@@ -80,6 +91,8 @@ public class AvatarService {
     }
 
     private byte[] generateImagePreview(Path filePath) throws IOException {
+
+        logger.info("Was invoked method AvatarService::generateImagePreview");
 
         try (InputStream is = Files.newInputStream(filePath);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
@@ -102,7 +115,10 @@ public class AvatarService {
     }
 
     private String getExtension(String fileName) {
+
+        logger.info("Was invoked method AvatarService::getExtension");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
+
     }
 
 
