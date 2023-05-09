@@ -101,4 +101,17 @@ public class FacultyController {
 
     }
 
+    @GetMapping("/getBiggestNameFaculty")
+    public ResponseEntity getBiggestNameFaculty() {
+
+        String name = facultyService.getBiggestNameFaculty();
+
+        if (name == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(name);
+
+    }
+
 }
