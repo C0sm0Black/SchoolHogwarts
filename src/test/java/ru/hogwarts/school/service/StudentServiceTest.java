@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import liquibase.pro.packaged.D;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,6 @@ class StudentServiceTest {
         assertEquals(expectedStudent, actualStudent);
         verify(studentRepository).getById(findId);
         verifyNoMoreInteractions(studentRepository);
-
 
 
     }
@@ -214,7 +214,7 @@ class StudentServiceTest {
     }
 
     @Test
-    void getLastStudents() {
+    void getLastStudents_success() {
 
         //Подготовка входных данных
 
@@ -244,5 +244,77 @@ class StudentServiceTest {
         verifyNoMoreInteractions(studentRepository);
 
     }
+
+    @Test
+    void getStudentByNameForFirstA_success() {
+
+        //Подготовка входных данных
+
+        Student studentOne = new Student(1, "Harry Potter", 14);
+        Student studentTwo = new Student(2, "Ron Wiesly", 14);
+        Student studentThree = new Student(3, "Ron Wiesly", 18);
+        Student studentFour = new Student(4, "Emily Taylor", 12);
+        Student studentFive = new Student(5, "Amber Noel", 21);
+
+        List<Student> students = new ArrayList<>();
+        List<String> studentsWithNameForFirstA = new ArrayList<>();
+
+        students.add(studentOne);
+        students.add(studentTwo);
+        students.add(studentThree);
+        students.add(studentFour);
+        students.add(studentFive);
+
+        studentsWithNameForFirstA.add(studentFive.getName().toUpperCase());
+
+
+        //Подготовка ожидаемого результата
+
+        when(studentRepository.findAll()).thenReturn(students);
+
+        //Начало теста
+
+        List<String> actualStudents = studentService.getStudentByNameForFirstA();
+        assertEquals(studentsWithNameForFirstA, actualStudents);
+        verify(studentRepository).findAll();
+        verifyNoMoreInteractions(studentRepository);
+
+    }
+
+    @Test
+    void getAvgAgeStudentsSecondMethod_success() {
+
+        //Подготовка входных данных
+
+        Student studentOne = new Student(1, "Harry Potter", 14);
+        Student studentTwo = new Student(2, "Ron Wiesly", 14);
+        Student studentThree = new Student(3, "Ron Wiesly", 18);
+        Student studentFour = new Student(4, "Emily Taylor", 12);
+        Student studentFive = new Student(5, "Amber Noel", 21);
+
+        List<Student> students = new ArrayList<>();
+
+        students.add(studentOne);
+        students.add(studentTwo);
+        students.add(studentThree);
+        students.add(studentFour);
+        students.add(studentFive);
+
+        Double expectedAvg = 15.8;
+
+
+        //Подготовка ожидаемого результата
+
+        when(studentRepository.findAll()).thenReturn(students);
+
+        //Начало теста
+
+        Double actualAvg = studentService.getAvgAgeStudentsSecondMethod();
+        assertEquals(expectedAvg, actualAvg);
+        verify(studentRepository).findAll();
+        verifyNoMoreInteractions(studentRepository);
+
+    }
+
 
 }

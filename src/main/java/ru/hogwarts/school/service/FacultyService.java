@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import liquibase.pro.packaged.F;
+import liquibase.pro.packaged.S;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -72,6 +75,19 @@ public class FacultyService {
 
         logger.info("Was invoked method FacultyService::getFacultyStudents");
         return facultyRepository.findFirstByName(nameFaculty).getStudents();
+
+    }
+
+    public String getBiggestNameFaculty() {
+
+        logger.info("Was invoked method FacultyService::getBiggestNameFaculty");
+
+        List<Faculty> faculties = facultyRepository.findAll();
+
+        return faculties.stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length))
+                .orElse(null);
 
     }
 
