@@ -142,7 +142,6 @@ public class StudentService {
         logger.info("resultParallel: {}, time: {}", resultParallel, finish - start);
 
         start = System.currentTimeMillis();
-
         Integer result = Stream.iterate(1, a -> a + 1)
                 .limit(7_000_000)
                 .reduce(0, (a, b) -> a + b);
@@ -152,6 +151,73 @@ public class StudentService {
         logger.info("result: {}, time: {}", result, finish - start);
 
         return resultParallel;
+
+    }
+
+    public void printSixStudent() {
+
+        List<Student> students = studentRepository.findAll();
+        System.out.println(students);
+
+
+        printThread(students.get(0));
+        printThread(students.get(1));
+
+        Thread threadOne = new Thread(() -> {
+
+            printThread(students.get(2));
+            printThread(students.get(3));
+
+        });
+
+        Thread threadTwo = new Thread(() -> {
+
+            printThread(students.get(4));
+            printThread(students.get(5));
+
+        });
+
+        threadOne.start();
+        threadTwo.start();
+
+    }
+
+    public void printSixStudentSynchronized() {
+
+        List<Student> students = studentRepository.findAll();
+        System.out.println(students);
+
+        printThreadSync(students.get(0));
+        printThreadSync(students.get(1));
+
+        Thread threadOne = new Thread(() -> {
+
+            printThread(students.get(2));
+            printThread(students.get(3));
+
+        });
+
+        Thread threadTwo = new Thread(() -> {
+
+            printThreadSync(students.get(4));
+            printThreadSync(students.get(5));
+
+        });
+
+        threadOne.start();
+        threadTwo.start();
+
+    }
+
+    private void printThread(Student student) {
+        System.out.println(Thread.currentThread().getName() + " " + student);
+    }
+
+    private void printThreadSync(Student student) {
+
+        synchronized (this) {
+            System.out.println(Thread.currentThread().getName() + " " + student);
+        }
 
     }
 
