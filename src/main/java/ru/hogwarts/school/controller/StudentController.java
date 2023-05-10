@@ -181,4 +181,14 @@ public class StudentController {
 
     }
 
+    @GetMapping("/printSixStudent")
+    public void printSixStudent() {
+        studentService.printSixStudent();
+    }
+
+    @GetMapping("/printSixStudentSync")
+    public void printSixStudentSync() {
+        studentService.printSixStudentSynchronized();
+    }
+
 }
